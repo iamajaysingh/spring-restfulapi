@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.dev.quack.exception.TaskNotFound;
 import com.dev.quack.models.Todo;
 import com.dev.quack.services.TodoService;
 
@@ -33,9 +34,15 @@ public class TodoResourceController {
 
 	@GetMapping("todo/{id}")
 	public Todo gettodo(@PathVariable int id) {
-
-		return todoService.findOne(id);
+		
+		Todo t1=todoService.findOne(id);
+		if (t1 == null) {
+			throw new TaskNotFound("id:-" + id);
+		}
+		return t1;
 	}
+
+	
 
 	@PostMapping("/todo")
 	public ResponseEntity<Object> saveTodo(@RequestBody Todo todo) {
