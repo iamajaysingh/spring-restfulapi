@@ -28,7 +28,14 @@ public class TodoResourceController {
 	@GetMapping("/todo-list")
 	public List<Todo> getUserTodoList() {
 
-		return todoService.findAll();
+		List<Todo>  todo =todoService.findAll();
+		if(todo.isEmpty()) {
+			
+			throw new TaskNotFound("No task has created yet");
+		}
+		
+		return todo;
+		
 
 	}
 
