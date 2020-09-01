@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Component;
@@ -18,8 +21,15 @@ public class Todo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
+	@Size(min =2, message="Name should contain at least more than one character.")
+	@NotNull(message="username can not be  null, please fill details carefully")
 	private String username;
+	
+	
 	private String description;
+	
+	
 	private Date createdDate;
 	private boolean isDone;
 	private boolean isImportant;
