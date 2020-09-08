@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.io.Resource;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.ControllerLinkBuilder;
@@ -84,10 +85,9 @@ public class TodoResourceController {
 	}
 	
 	@GetMapping("/get-title")
-	public String  getMessages(@RequestHeader(name="Accept-Language", required=false) Locale locale) {
-		System.out.println("hello ajay singh================================="+locale);
+	public String  getMessages() {
 
-		return messageSource.getMessage("good.morning.message",null, locale);
+		return messageSource.getMessage("good.morning.message",null, LocaleContextHolder.getLocale());
 		
 	}
 	

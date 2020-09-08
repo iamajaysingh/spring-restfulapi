@@ -1,5 +1,6 @@
 package com.dev.quack;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.hibernate.validator.spi.messageinterpolation.LocaleResolver;
@@ -13,12 +14,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 
 @SpringBootApplication()
 
-/*@EnableAutoConfiguration*/
+@EnableAutoConfiguration
 public class QuackApplication {
 
 	public static void main(String[] args) {
@@ -32,15 +34,21 @@ public class QuackApplication {
 		
 		
 	}
-	
+	// Instead of Using SessionLocalResolver we can use AcceptHeaderLocaleResolver
 	@Bean
-	public SessionLocaleResolver localResolver() {
-		SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
-		sessionLocaleResolver.setDefaultLocale(Locale.FRANCE);
-		return sessionLocaleResolver;
+	public AcceptHeaderLocaleResolver localResolver() {
+		AcceptHeaderLocaleResolver acceptLocaleResolver = new AcceptHeaderLocaleResolver();
+		acceptLocaleResolver.setDefaultLocale(Locale.US);
+		
+		List<Locale> localeList=acceptLocaleResolver.getSupportedLocales();
+		for(Locale locale : localeList) {
+			System.out.println(locale.getCountry()+"====================================");
+		}
+		
+		return acceptLocaleResolver;
 	}
-	
-	@Bean(name="messageSource")
+	// we can define this property in application properties file spring.messages.basename=messages
+/*	@Bean(name="messageSource")
 	public ResourceBundleMessageSource bundleMessageSource() {
 		ResourceBundleMessageSource messageReource = new ResourceBundleMessageSource();
 		messageReource.setBasename("messages");
@@ -48,6 +56,6 @@ public class QuackApplication {
 		return messageReource;
 		
 		
-	}
+	}*/
 
 }
